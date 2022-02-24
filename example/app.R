@@ -8,13 +8,15 @@ app <- Ambiorix$new()
 
 pv <- \(req, res) {
 
+  # no session = new user
   if(is.null(req$session))
     return(
-        list(
+      list(
         page_views = 1L
       )
     )
 
+  # existing user = increment
   list(
     page_views = req$session$page_views + 1L
   ) 

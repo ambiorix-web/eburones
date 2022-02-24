@@ -20,7 +20,10 @@ eburones <- function(
 
   \(req, res) {
 
+    # user from cookie
     user <- req$cookie$eburonesUser
+
+    # user found
     if(storage$has(user)) {
       req$session <- storage$get(user)
       obj <- session(req, res)
@@ -28,7 +31,7 @@ eburones <- function(
       return(NULL)
     }
 
-    # new user token
+    # create new user
     token <- token_create(8L)
 
     # set the user
