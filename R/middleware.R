@@ -2,21 +2,21 @@
 #' 
 #' Session middleware.
 #' 
-#' @param backend Storage class to keep track of sessions.
-#' @param session Function to run when a session is created or retrieved.
+#' @param backend Storage class to keep track of callbacks.
+#' @param callback Function to run when a callback is created or retrieved.
 #' 
 #' @importFrom ambiorix token_create
 #' 
 #' @export 
 eburones <- function(
   backend = Local$new(),
-  session = \(req, res) list()
+  callback = \(req, res) list()
 ) {
-  if(!is.function(session))
-    stop("`session` must be a function")
+  if(!is.function(callback))
+    stop("`callback` must be a function")
 
-  if(length(methods::formalArgs(session)) != 2)
-    stop("`session` must accept 2 arguments: req, and res")
+  if(length(methods::formalArgs(callback)) != 2)
+    stop("`callback` must accept 2 arguments: req, and res")
 
   \(req, res) {
 
@@ -25,8 +25,8 @@ eburones <- function(
 
     # user found
     if(backend$has(user)) {
-      req$session <- backend$get(user)
-      obj <- session(req, res)
+      req$callback <- backend$get(user)
+      obj <- callback(req, res)
       backend$set(user, obj)
       return(NULL)
     }
@@ -35,10 +35,10 @@ eburones <- function(
     token <- token_create(8L)
 
     # set the user
-    obj <- session(req, res)
+    obj <- callback(req, res)
 
     backend$set(token, obj)
-    req$session <- obj
+    req$callback <- obj
     
     # set the cookie
     res$cookie("eburonesUser", token)

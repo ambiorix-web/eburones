@@ -23,7 +23,7 @@ pv <- \(req, res) {
 }
 
 app$use(
-  eburones(session = pv)
+  eburones(callback = pv)
 )
 
 app$get("/", \(req, res){

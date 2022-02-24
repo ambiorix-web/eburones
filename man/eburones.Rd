@@ -4,12 +4,12 @@
 \alias{eburones}
 \title{Eburones}
 \usage{
-eburones(backend = Local$new(), session = function(req, res) list())
+eburones(backend = Local$new(), callback = function(req, res) list())
 }
 \arguments{
-\item{backend}{Storage class to keep track of sessions.}
+\item{backend}{Storage class to keep track of callbacks.}
 
-\item{session}{Function to run when a session is created or retrieved.}
+\item{callback}{Function to run when a callback is created or retrieved.}
 }
 \description{
 Session middleware.

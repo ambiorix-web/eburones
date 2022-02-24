@@ -34,7 +34,7 @@ DBI::dbExecute(
 backend <- DBI$new(con, "sessions")
 
 app$use(
-  eburones(backend = backend, session = pv)
+  eburones(backend = backend, callback = pv)
 )
 
 app$get("/", \(req, res){
