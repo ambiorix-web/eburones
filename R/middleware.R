@@ -2,14 +2,14 @@
 #' 
 #' Session middleware.
 #' 
-#' @param storage Storage class to keep track of sessions.
+#' @param backend Storage class to keep track of sessions.
 #' @param session Function to run when a session is created or retrieved.
 #' 
 #' @importFrom ambiorix token_create
 #' 
 #' @export 
 eburones <- function(
-  storage = Local$new(),
+  backend = Local$new(),
   session = \(req, res) list()
 ) {
   if(!is.function(session))
@@ -24,10 +24,10 @@ eburones <- function(
     user <- req$cookie$eburonesUser
 
     # user found
-    if(storage$has(user)) {
-      req$session <- storage$get(user)
+    if(backend$has(user)) {
+      req$session <- backend$get(user)
       obj <- session(req, res)
-      storage$set(user, obj)
+      backend$set(user, obj)
       return(NULL)
     }
 
@@ -37,7 +37,7 @@ eburones <- function(
     # set the user
     obj <- session(req, res)
 
-    storage$set(token, obj)
+    backend$set(token, obj)
     req$session <- obj
     
     # set the cookie

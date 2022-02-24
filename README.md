@@ -16,6 +16,11 @@ remotes::install_github("devOpifex/eburones")
 
 Simply use the `eburones` middleware.
 
+__Local__
+
+The local backend should only be used for local development,
+never in production.
+
 ```r
 library(eburones)
 library(ambiorix)
@@ -42,7 +47,7 @@ app <- Ambiorix$new()
 
 pv <- \(req, res) {
 
-  # new user
+  # no session = new user
   if(is.null(req$session))
     return(
       list(
@@ -50,7 +55,7 @@ pv <- \(req, res) {
       )
     )
 
-  # increment
+  # existing user = increment
   list(
     page_views = req$session$page_views + 1L
   ) 
@@ -65,4 +70,57 @@ app$get("/", \(req, res){
 })
 
 app$start()
+```
+
+__DBI__
+
+There is a DBI backend.
+
+```r
+library(eburones)
+library(ambiorix)
+
+app <- Ambiorix$new()
+
+pv <- \(req, res) {
+
+  # new user return a data.frame
+  if(is.null(req$session))
+    return(
+      data.frame(
+        page_views = 1L
+      )
+    )
+
+  # we need to return a data.frame (1 row)
+  data.frame(
+    page_views = req$session$page_views + 1L
+  ) 
+}
+
+# we create a connection to a database (SQLite in this case)
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:"o)
+
+# we need to create the table we'll use to store sessions
+# it must contain a key column where user token will be stored
+DBI::dbExecute(
+  con,
+  "CREATE TABLE sessions (
+    key TEXT,
+    page_views INTEGER
+  )"
+)
+
+backend <- DBI$new(con, "sessions")
+
+app$use(
+  eburones(backend = backend, session = pv)
+)
+
+app$get("/", \(req, res){
+  res$sendf("Hello there for the %s time", req$session$page_views)
+})
+
+app$start()
+
 ```
