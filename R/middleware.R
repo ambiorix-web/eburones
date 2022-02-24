@@ -4,13 +4,15 @@
 #' 
 #' @param backend Storage class to keep track of callbacks.
 #' @param callback Function to run when a callback is created or retrieved.
+#' @param ... Passed to the `cookie` method of the [ambiorix::Response] class.
 #' 
 #' @importFrom ambiorix token_create
 #' 
 #' @export 
 eburones <- function(
   backend = Local$new(),
-  callback = \(req, res) list()
+  callback = \(req, res) list(),
+  ...
 ) {
   if(!is.function(callback))
     stop("`callback` must be a function")
@@ -41,7 +43,7 @@ eburones <- function(
     req$callback <- obj
     
     # set the cookie
-    res$cookie("eburonesUser", token)
+    res$cookie("eburonesUser", token, ...)
 
     return(NULL)
   }

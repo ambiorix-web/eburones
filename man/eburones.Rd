@@ -4,12 +4,14 @@
 \alias{eburones}
 \title{Eburones}
 \usage{
-eburones(backend = Local$new(), callback = function(req, res) list())
+eburones(backend = Local$new(), callback = function(req, res) list(), ...)
 }
 \arguments{
 \item{backend}{Storage class to keep track of callbacks.}
 
 \item{callback}{Function to run when a callback is created or retrieved.}
+
+\item{...}{Passed to the \code{cookie} method of the \link[ambiorix:Response]{ambiorix::Response} class.}
 }
 \description{
 Session middleware.
