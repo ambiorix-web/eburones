@@ -18,8 +18,10 @@ Simply use the `eburones` middleware.
 
 __Local__
 
-The local backend should only be used for local development,
-never in production.
+:warning: The local backend should only be used for local development,
+never in production. 
+It will also not properly track sessions with 
+[belgic](https://github.com/belgic).
 
 ```r
 library(eburones)
@@ -38,6 +40,10 @@ app$start()
 ```
 
 Below is an example to track page views.
+We create a callback function that returns a list containing the number
+of page views.
+This callback is run at every request for the session, we 
+increment it at every visit.
 
 ```r
 library(eburones)
@@ -75,6 +81,9 @@ app$start()
 __DBI__
 
 There is a DBI backend.
+We implement the same page view tracker as above. 
+One difference is that the DBI backend expects the callback
+to return a `data.frame` of 1 row.
 
 ```r
 library(eburones)
