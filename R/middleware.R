@@ -2,6 +2,8 @@
 #' 
 #' Session middleware.
 #' 
+#' @param identifier Function that creates a unique token.
+#' This is run when creating a new session.
 #' @param name Cookie name.
 #' @param backend Storage class to keep track of callbacks.
 #' @param callback Function to run when a callback is created or retrieved.
@@ -11,10 +13,11 @@
 #' 
 #' @export 
 eburones <- function(
+  ...,
   name = "session",
   backend = Local$new(),
   callback = \(req, res) list(),
-  ...
+  identifier = token_create
 ) {
   if(!is.function(callback))
     stop("`callback` must be a function")
@@ -36,7 +39,7 @@ eburones <- function(
     }
 
     # create new user
-    token <- token_create(8L)
+    token <- identifier()
 
     # set the user
     obj <- callback(req, res)

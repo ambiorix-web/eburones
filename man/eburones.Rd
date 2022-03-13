@@ -5,20 +5,24 @@
 \title{Eburones}
 \usage{
 eburones(
+  ...,
   name = "session",
   backend = Local$new(),
   callback = function(req, res) list(),
-  ...
+  identifier = token_create
 )
 }
 \arguments{
+\item{...}{Passed to the \code{cookie} method of the \link[ambiorix:Response]{ambiorix::Response} class.}
+
 \item{name}{Cookie name.}
 
 \item{backend}{Storage class to keep track of callbacks.}
 
 \item{callback}{Function to run when a callback is created or retrieved.}
 
-\item{...}{Passed to the \code{cookie} method of the \link[ambiorix:Response]{ambiorix::Response} class.}
+\item{identifier}{Function that creates a unique token.
+This is run when creating a new session.}
 }
 \description{
 Session middleware.
