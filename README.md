@@ -27,7 +27,8 @@ __Local__
 :warning: The local backend should only be used for local development,
 never in production. 
 It will also not properly track sessions with 
-[belgic](https://github.com/belgic).
+[belgic](https://github.com/belgic), across machines, and
+data will be lost when the server is restarted.
 
 ```r
 library(eburones)
