@@ -7,12 +7,18 @@ User sessions for [ambiorix](https://ambiorix.dev).
 
 ## Installation
 
+Get it from Github.
+
 ``` r
 # install.packages("remotes")
 remotes::install_github("devOpifex/eburones")
 ```
 
 ## Example
+
+:warning: You are strongly advised to use 
+[scilis](https://github.com/devOpifex/scilis)
+secure your cookies.
 
 Simply use the `eburones` middleware.
 

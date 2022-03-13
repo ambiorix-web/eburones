@@ -16,3 +16,7 @@ Imports:
     methods,
     fastmap,
     ambiorix
+Suggests:
+    scilis
+Remotes:
+    devOpifex/scilis
