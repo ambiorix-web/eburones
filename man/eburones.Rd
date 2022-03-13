@@ -4,9 +4,16 @@
 \alias{eburones}
 \title{Eburones}
 \usage{
-eburones(backend = Local$new(), callback = function(req, res) list(), ...)
+eburones(
+  name = "session",
+  backend = Local$new(),
+  callback = function(req, res) list(),
+  ...
+)
 }
 \arguments{
+\item{name}{Cookie name.}
+
 \item{backend}{Storage class to keep track of callbacks.}
 
 \item{callback}{Function to run when a callback is created or retrieved.}

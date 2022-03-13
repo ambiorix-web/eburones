@@ -2,6 +2,7 @@
 #' 
 #' Session middleware.
 #' 
+#' @param name Cookie name.
 #' @param backend Storage class to keep track of callbacks.
 #' @param callback Function to run when a callback is created or retrieved.
 #' @param ... Passed to the `cookie` method of the [ambiorix::Response] class.
@@ -10,6 +11,7 @@
 #' 
 #' @export 
 eburones <- function(
+  name = "session",
   backend = Local$new(),
   callback = \(req, res) list(),
   ...
@@ -43,7 +45,7 @@ eburones <- function(
     req$callback <- obj
     
     # set the cookie
-    res$cookie("eburonesUser", token, ...)
+    res$cookie(name, token, ...)
 
     return(NULL)
   }
