@@ -2,12 +2,6 @@
 #' 
 #' DBI backend for sessions. 
 #' 
-#' @param con Live DBI connection.
-#' @param table Name of table to store sessions.
-#' The table must exists, it must also contain the expected 
-#' columns, as well as a `key` column where the user token will
-#' be stored.
-#' 
 #' @importFrom DBI dbExistsTable dbGetQuery dbExecute dbAppendTable
 #' 
 #' @export 
@@ -15,6 +9,11 @@ DBI <- R6::R6Class(
   "DBI",
   public = list(
     #' @details Constructor
+    #' @param con Live DBI connection.
+    #' @param table Name of table to store sessions.
+    #' The table must exists, it must also contain the expected 
+    #' columns, as well as a `key` column where the user token will
+    #' be stored.
     initialize = function(con, table) {
       if(missing(con))
         stop("Missing `con`")
@@ -70,7 +69,7 @@ DBI <- R6::R6Class(
     },
     #' @details Check whether a key is present in the map.
     #' @param key Key of the `value`.
-    has = function(key) {
+    has = function(key = NULL) {
       if(is.null(key))
         return(FALSE)
 

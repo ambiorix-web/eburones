@@ -2,6 +2,7 @@
 
 export(DBI)
 export(Local)
+export(Mongo)
 export(eburones)
 importFrom(DBI,dbAppendTable)
 importFrom(DBI,dbExecute)

@@ -15,8 +15,9 @@ Imports:
     DBI,
     methods,
     fastmap,
-    ambiorix
+    ambiorix (>= 2.0.0.9000)
 Suggests:
-    scilis
+    scilis,
+    mongolite
 Remotes:
     devOpifex/scilis

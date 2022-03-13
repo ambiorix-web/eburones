@@ -137,5 +137,52 @@ app$get("/", \(req, res){
 })
 
 app$start()
+```
 
+__Mongodb__
+
+```r
+library(eburones)
+library(ambiorix)
+library(mongolite)
+
+m <- mongo(
+  url = "mongodb://localhost/?ssl=true", 
+  options = ssl_options(
+    weak_cert_validation = TRUE
+  )
+)
+
+mongo <- Mongo$new(m, "user")
+
+app <- Ambiorix$new()
+
+pv <- \(req, res) {
+
+  # no session = new user
+  if(is.null(req$session))
+    return(
+      list(
+        page_views = 1L
+      )
+    )
+
+  # existing user = increment
+  list(
+    page_views = req$session$page_views + 1L
+  ) 
+}
+
+app$use(
+  eburones(
+    backend = mongo, 
+    callback = pv
+  )
+)
+
+app$get("/", \(req, res){
+  res$sendf("Hello there for the %s time", req$session$page_views)
+})
+
+app$start()
 ```

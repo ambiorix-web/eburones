@@ -25,11 +25,11 @@ eburones <- function(
   \(req, res) {
 
     # user from cookie
-    user <- req$cookie$eburonesUser
+    user <- req$cookie[[name]]
 
     # user found
     if(backend$has(user)) {
-      req$callback <- backend$get(user)
+      req$session <- backend$get(user)
       obj <- callback(req, res)
       backend$set(user, obj)
       return(NULL)
@@ -42,7 +42,7 @@ eburones <- function(
     obj <- callback(req, res)
 
     backend$set(token, obj)
-    req$callback <- obj
+    req$session <- obj
     
     # set the cookie
     res$cookie(name, token, ...)
